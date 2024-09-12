@@ -17,7 +17,8 @@ return new class extends Migration
         $table->string('name');
         $table->string('email');
         $table->string('phone')->nullable();
-        $table->text('notes')->nullable();
+        $table->text('headline')->nullable();
+        $table->text('address')->nullable();
         $table->timestamps();
 
         $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');

@@ -1,39 +1,39 @@
-@extends('layouts.app')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+            {{ __('Add New Lead') }}
+        </h2>
+    </x-slot>
 
-@section('content')
 <div class="container">
-    <h2>Add New Lead</h2>
+    
     <form action="{{ route('leads.store') }}" method="POST">
         @csrf
         <div class="form-group">
             <label for="name">Name</label>
-            <input type="text" id="name" name="name" class="form-control" required>
+            <input type="text" class="form-control" id="name" name="name" required>
         </div>
         <div class="form-group">
             <label for="email">Email</label>
-            <input type="email" id="email" name="email" class="form-control" required>
+            <input type="email" class="form-control" id="email" name="email">
         </div>
         <div class="form-group">
             <label for="phone">Phone</label>
-            <input type="text" id="phone" name="phone" class="form-control">
+            <input type="text" class="form-control" id="phone" name="phone">
         </div>
         <div class="form-group">
-            <label for="notes">Notes</label>
-            <textarea id="notes" name="notes" class="form-control"></textarea>
+            <label for="headline">Headline</label>
+            <input type="text" class="form-control" id="headline" name="headline">
         </div>
-        <button type="submit" class="btn btn-primary">Add Lead</button>
-    </form>
-
-    <hr>
-
-    <h3>Import Leads</h3>
-    <form action="{{ route('leads.import') }}" method="POST" enctype="multipart/form-data">
-        @csrf
         <div class="form-group">
-            <label for="file">JSON File</label>
-            <input type="file" id="file" name="file" class="form-control" accept=".json" required>
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address" name="address">
         </div>
-        <button type="submit" class="btn btn-primary">Import Leads</button>
+        <button type="submit" class="btn btn-primary">Submit</button>
     </form>
+  
+
+   
 </div>
-@endsection
+
+</x-app-layout>

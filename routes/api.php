@@ -24,7 +24,13 @@ Route::post('/login', [AuthController::class, 'login']);
 
 
 
-Route::middleware('auth:sanctum')->group(function () {
-    Route::post('/leads/import', [LeadController::class, 'import']);
-    Route::get('/leads', [LeadController::class, 'index']);
-});
+// Route::middleware('auth:sanctum')->group(function () {
+//     Route::post('/leads/import', [LeadController::class, 'import']);
+//     Route::get('/leads', [LeadController::class, 'index']);
+// });
+
+
+Route::post('leads/import', [LeadController::class, 'import'])->middleware('auth:api');
+
+// Route::post('/leads', [LeadController::class, 'store']);
+// Route::post('/leads/import', [LeadController::class, 'import']);

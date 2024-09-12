@@ -23,9 +23,10 @@ class LeadController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
+            'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:20',
-            'notes' => 'nullable|string',
+            'headline' => 'nullable|string',
+            'address' => 'nullable|string',
         ]);
 
         Lead::create([
@@ -33,25 +34,35 @@ class LeadController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
-            'notes' => $request->input('notes'),
+            'headline' => $request->input('headline'),
+            'address' => $request->input('address'),
+            
         ]);
 
         return redirect()->route('leads.index')->with('success', 'Lead added successfully.');
     }
 
     public function import(Request $request)
-    {
-        $request->validate([
-            'file' => 'required|file|mimes:json',
-        ]);
+{
+    $request->validate([
+        'leads' => 'required|array',
+        'leads.*.name' => 'nullable|string|max:255',
+        'leads.*.email' => 'nullable|email|max:255',
+        'leads.*.phone' => 'nullable|string|max:20',
+        'leads.*.headline' => 'nullable|string',
+        'leads.*.address' => 'nullable|string',
+    ]);
 
-        $path = $request->file('file')->getRealPath();
-        $data = json_decode(file_get_contents($path), true);
-
-        foreach ($data as $leadData) {
-            Lead::create(array_merge($leadData, ['user_id' => Auth::id()]));
-        }
-
-        return redirect()->route('leads.index')->with('success', 'Leads imported successfully.');
+    foreach ($request->input('leads') as $leadData) {
+        $leadDataWithUserId = array_merge($leadData, ['user_id' => Auth::id()]);
+        Log::info('Importing lead:', $leadDataWithUserId);
+        Lead::create($leadDataWithUserId);
     }
+
+    return response()->json(['message' => 'Leads imported successfully.'], 200);
+}
+
+
+
+
 }

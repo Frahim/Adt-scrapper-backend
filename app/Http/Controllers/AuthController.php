@@ -28,21 +28,27 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        // Validate the incoming request
         $request->validate([
-            'email' => 'required|string|email',
-            'password' => 'required|string',
+            'email' => 'required|email',
+            'password' => 'required',
         ]);
 
+        // Attempt to find the user by email
         $user = User::where('email', $request->email)->first();
 
-        if (! $user || ! Hash::check($request->password, $user->password)) {
-            throw ValidationException::withMessages([
-                'email' => ['The provided credentials are incorrect.'],
-            ]);
+        // Check if the user exists and the password matches
+        if (!$user || !Hash::check($request->password, $user->password)) {
+            return response()->json(['message' => 'Invalid credentials'], 401);
         }
 
-        $token = $user->createToken('auth_token')->plainTextToken;
+        // Generate a Sanctum token for the user
+        $token = $user->createToken('auth-token')->plainTextToken;
 
-        return response()->json(['token' => $token], 200);
+        // Return the token and a success message
+        return response()->json([
+            'message' => 'Login successful',
+            'token' => $token
+        ]);
     }
 }
