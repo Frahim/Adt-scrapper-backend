@@ -12,9 +12,11 @@ class Lead extends Model
         'user_id',
         'name',
         'email',
+        'photo',
         'phone',
         'headline',
         'address',
+        'url',
     ];
      /**
      * Add user.

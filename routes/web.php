@@ -31,6 +31,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/leads/create', [LeadController::class, 'create'])->name('leads.create');
     Route::post('/leads', [LeadController::class, 'store'])->name('leads.store');
     Route::post('/leads/import', [LeadController::class, 'import'])->name('leads.import');
+    Route::get('/leads/export', [LeadController::class, 'exportJson'])->name('leads.exportJson');
+   
 });
 
 require __DIR__.'/auth.php';

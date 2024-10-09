@@ -25,8 +25,10 @@ class LeadController extends Controller
             'name' => 'required|string|max:255',
             'email' => 'nullable|email|max:255',
             'phone' => 'nullable|string|max:20',
+            'url' => 'nullable|url|unique:leads,url',
             'headline' => 'nullable|string',
-            'address' => 'nullable|string',
+            'address' => 'required|string',
+            'photo' => 'nullable|string',
         ]);
 
         Lead::create([
@@ -34,6 +36,8 @@ class LeadController extends Controller
             'name' => $request->input('name'),
             'email' => $request->input('email'),
             'phone' => $request->input('phone'),
+            'url' => $request->input('url'),
+            'photo' => $request->input('photo'),           
             'headline' => $request->input('headline'),
             'address' => $request->input('address'),
             
@@ -48,7 +52,9 @@ class LeadController extends Controller
         'leads' => 'required|array',
         'leads.*.name' => 'nullable|string|max:255',
         'leads.*.email' => 'nullable|email|max:255',
+        'leads.*.photo' => 'nullable|string',
         'leads.*.phone' => 'nullable|string|max:20',
+        'leads.*.url' => 'nullable|string',
         'leads.*.headline' => 'nullable|string',
         'leads.*.address' => 'nullable|string',
     ]);
@@ -63,6 +69,11 @@ class LeadController extends Controller
 }
 
 
+public function exportJson()  
+{  
+    $leads = Lead::where('user_id', Auth::id())->get();  
 
+    return response()->json($leads);  
+}  
 
 }

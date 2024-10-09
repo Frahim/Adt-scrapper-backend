@@ -5,30 +5,36 @@
         </h2>
     </x-slot>
 
-    <div class="py-12 ">
+    <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
     <div class="container">
-        <h1>Leads</h1>
+      
         @if(session('success'))
             <div class="alert alert-success">
                 {{ session('success') }}
             </div>
         @endif
-        <table>
+        <table class="table-wrapper border-collapse border min-w-full">
             <thead>
                 <tr>
-                    <th>Name</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Notes</th>
+                    <th class="text-left p-4">
+                        Photo
+                    </th>
+                    <th class="text-left p-4">Name</th>
+                    <th class="p-4">Email</th>
+                    <th class="p-4">Phone</th>
+                    <th class="p-4"> <a target="_blank" class="btn" href="/leads/export">Export jason</a></th>
                 </tr>
             </thead>
             <tbody>
                 @foreach($leads as $lead)
                     <tr>
-                        <td>{{ $lead->name }}</td>
-                        <td>{{ $lead->email }}</td>
-                        <td>{{ $lead->phone }}</td>
-                        <td>{{ $lead->notes }}</td>
+                        <td class="p-4 border "><img src="{{$lead->photo}}" alt="" style="width: 100px; height:80px;"/></td>
+                        <td class="p-4 border ">{{ $lead->name }}</td>
+                        <td class="p-4 border  ">{{ $lead->email }}</td>
+                        <td class="p-4 border ">{{ $lead->phone }}</td>
+                        <td class="p-4 border ">
+                            <a href="#">View</a>
+                        </td>
                     </tr>
                 @endforeach
             </tbody>
